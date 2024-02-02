@@ -29,7 +29,7 @@ public class BorrowRepository {
         repository.delete(borrow);
     }
 
-	public List<Borrow> findBorrowsByPerson(Long personId){
+    public List<Borrow> findBorrowsByPerson(Long personId){
         SearchCriteria<Borrow> spec = new SearchCriteria<>();
 
         if (personId != null) {
@@ -38,7 +38,7 @@ public class BorrowRepository {
         return repository.findAll(spec);
     }
 
-	public List<Borrow> findBorrowsPenaltiesByPerson(Long personId){
+    public List<Borrow> findBorrowsPenaltiesByPerson(Long personId){
         SearchCriteria<Borrow> spec = new SearchCriteria<>();
 
         if (personId != null) {

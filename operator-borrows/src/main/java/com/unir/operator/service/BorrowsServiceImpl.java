@@ -49,47 +49,48 @@ public class BorrowsServiceImpl implements BorrowsService {
 
     @Override
     public Boolean removeBorrow(Long borrowId) {
-		Borrow borrow = repository.getById(borrowId);
-		if (borrow != null) {
-			repository.delete(borrow);
-			return Boolean.TRUE;
-		} else {
-			return Boolean.FALSE;
-		}
+        Borrow borrow = repository.getById(borrowId);
+        if (borrow != null) {
+            repository.delete(borrow);
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
     @Override
     public Borrow createBorrow(CreateBorrowRequest request) {
         Book book = booksFacade.getBook(String.valueOf(request.getBookId()));
-        if(book==null || book.getVisible()!=true)return null;
-		if (request != null 
+        if(book == null || book.getVisible() != true)
+            return null;
+        if (request != null
                 && request.getBookId() != null
                 && request.getPersonId() != null
-				&& request.getDays() != null) {
+                && request.getDays() != null) {
 
-                    Borrow borrow = Borrow.builder()
-					.bookId(request.getBookId())
-					.personId(request.getPersonId())
-					.days(request.getDays())
-					.date(LocalDateTime.now())
-					.build();
+            Borrow borrow = Borrow.builder()
+                    .bookId(request.getBookId())
+                    .personId(request.getPersonId())
+                    .days(request.getDays())
+                    .date(LocalDateTime.now())
+                    .build();
 
-			return repository.save(borrow);
-		} else {
-			return null;
-		}
+            return repository.save(borrow);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Borrow updateBorrow(Long borrowId, BorrowDto updateRequest) {
-		Borrow borrow = repository.getById(borrowId);
-		if (borrow != null) {
-			borrow.update(updateRequest);
-			repository.save(borrow);
-			return borrow;
-		} else {
-			return null;
-		}
+        Borrow borrow = repository.getById(borrowId);
+        if (borrow != null) {
+            borrow.update(updateRequest);
+            repository.save(borrow);
+            return borrow;
+        } else {
+            return null;
+        }
     }
     
 }
