@@ -29,3 +29,6 @@ eureka:
   instance:
     preferIpAddress: true
     hostname: ms-operator-borrows
+
+getBook:
+  url: http://ms-inventory-books/books/%s

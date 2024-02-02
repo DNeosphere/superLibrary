@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unir.operator.data.BorrowRepository;
+import com.unir.operator.facade.BooksFacade;
 import com.unir.operator.model.pojo.Borrow;
+import com.unir.operator.model.Book;
 import com.unir.operator.model.pojo.BorrowDto;
 import com.unir.operator.model.request.CreateBorrowRequest;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
 public class BorrowsServiceImpl implements BorrowsService {
+
+    @Autowired //Inyeccion por campo (field injection). Es la menos recomendada.
+    private BooksFacade booksFacade;
 
 	@Autowired
 	private BorrowRepository repository;
@@ -57,6 +60,8 @@ public class BorrowsServiceImpl implements BorrowsService {
 
     @Override
     public Borrow createBorrow(CreateBorrowRequest request) {
+        Book book = booksFacade.getBook(String.valueOf(request.getBookId()));
+        if(book==null || book.getVisible()!=true)return null;
 		if (request != null 
                 && request.getBookId() != null
                 && request.getPersonId() != null
