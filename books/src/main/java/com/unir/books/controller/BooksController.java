@@ -38,7 +38,7 @@ public class BooksController {
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
-    public ResponseEntity<List<Book>> getProducts(
+    public ResponseEntity<List<Book>> getBooks(
             @RequestHeader Map<String, String> headers,
             @Parameter(name = "name", description = "Nombre del libro. No tiene por que ser exacto", example = "iPhone", required = false)
             @RequestParam(required = false) String name,
