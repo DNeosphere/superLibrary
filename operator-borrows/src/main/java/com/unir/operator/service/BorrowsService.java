@@ -13,9 +13,9 @@ public interface BorrowsService {
 	List<Borrow> findBorrowsByPerson(Long personId);
 
 	List<Borrow> findBorrowsPenaltiesByPerson(Long personId);
-	
+
 	Borrow getBorrow(Long borrowId);
-	
+
 	Boolean removeBorrow(Long borrowId);
 
 	Borrow createBorrow(CreateBorrowRequest request);

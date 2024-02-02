@@ -40,7 +40,7 @@ public class OperatorController {
         }
     }
 
-    @GetMapping("/borrows/person/penalties/{borrowId}")
+    @GetMapping("/borrows/person/penalties/{personId}")
     @Operation(operationId = "Obtener prestamos penalizados de una persona", description = "Operacion de lectura", summary = "Se consultan los prestamos penalizados a partir de un identificador de persona.")
     @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Borrow.class)))
     @ApiResponse(responseCode = "404", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)), description = "No se han encontrado los prestamos penalizados con el identificador indicado.")
@@ -102,11 +102,11 @@ public class OperatorController {
         }
     }
 
-    @PatchMapping("/borrows/turnin/{bookId}")
+    @PatchMapping("/borrows/turnin/{borrowId}")
     @Operation(operationId = "Devolver un libro por parte de la persona", description = "Operacion de escritura", summary = "Se devuelve un libro por parte de una persona", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Datos del prestamo a actualizar.", required = true, content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = BorrowDto.class))))
     @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Borrow.class)))
     @ApiResponse(responseCode = "404", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)), description = "Prestamo no encontrado.")
-    public ResponseEntity<Borrow> updateBorrow(@PathVariable Long borrowId) {
+    public ResponseEntity<Borrow> turnInBorrow(@PathVariable Long borrowId) {
 
         Borrow updated = service.turnIn(Long.valueOf(borrowId));
         if (updated != null) {
@@ -116,7 +116,7 @@ public class OperatorController {
         }
     }
 
-    @PutMapping("/borrows/{bookId}")
+    @PutMapping("/borrows/{borrowId}")
     @Operation(operationId = "Modificar totalmente un prestamo de libro", description = "Operacion de escritura", summary = "Se modifica totalmente un prestamo de libro.", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Datos del prestamo a actualizar.", required = true, content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = BorrowDto.class))))
     @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Borrow.class)))
     @ApiResponse(responseCode = "404", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)), description = "Prestamo no encontrado.")
