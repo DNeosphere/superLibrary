@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-operator-books
+    name: ms-operator-operator
   h2:
     console:
       enabled: true
