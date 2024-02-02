@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/books/pom.xml" />
         <option value="$PROJECT_DIR$/operator-borrows/pom.xml" />
         <option value="$PROJECT_DIR$/back-end-eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/back-end-cloud-gateway/pom.xml" />
       </list>
     </option>
   </component>
