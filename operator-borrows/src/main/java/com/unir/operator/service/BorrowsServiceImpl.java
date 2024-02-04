@@ -51,6 +51,9 @@ public class BorrowsServiceImpl implements BorrowsService {
     public Boolean removeBorrow(Long borrowId) {
         Borrow borrow = repository.getById(borrowId);
         if (borrow != null) {
+            Book book = booksFacade.getBook(String.valueOf(borrow.getBookId()));
+            book.setVisible(true);
+            book = booksFacade.patchBook(String.valueOf(book.getId()),book);
             repository.delete(borrow);
             return Boolean.TRUE;
         } else {
@@ -75,6 +78,8 @@ public class BorrowsServiceImpl implements BorrowsService {
                     .date(LocalDateTime.now())
                     .build();
 
+            book.setVisible(false);
+            book = booksFacade.patchBook(String.valueOf(request.getBookId()),book);
             return repository.save(borrow);
         } else {
             return null;
@@ -87,6 +92,14 @@ public class BorrowsServiceImpl implements BorrowsService {
         if (borrow != null) {
             borrow.update(updateRequest);
             repository.save(borrow);
+            if(updateRequest.getBookId()!=borrow.getBookId()){
+                Book bookNew = booksFacade.getBook(String.valueOf(updateRequest.getBookId()));
+                Book bookBefore = booksFacade.getBook(String.valueOf(borrow.getBookId()));
+                bookNew.setVisible(false);
+                bookNew = booksFacade.patchBook(String.valueOf(bookNew.getId()),bookNew);
+                bookBefore.setVisible(true);
+                bookBefore = booksFacade.patchBook(String.valueOf(bookBefore.getId()),bookBefore);
+            }
             return borrow;
         } else {
             return null;
