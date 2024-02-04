@@ -38,15 +38,18 @@ public class BooksController {
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
+    @ApiResponse(
+            responseCode = "204",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)))
     public ResponseEntity<List<Book>> getBooks(
             @RequestHeader Map<String, String> headers,
-            @Parameter(name = "name", description = "Nombre del libro. No tiene por que ser exacto", example = "iPhone", required = false)
+            @Parameter(name = "name", description = "Nombre del libro. No tiene por que ser exacto", example = "El señor de los anillos", required = false)
             @RequestParam(required = false) String name,
-            @Parameter(name = "author", description = "Author del libro", example = "Pepito Perez", required = false)
+            @Parameter(name = "author", description = "Autor del libro", example = "Pepito Perez", required = false)
             @RequestParam(required = false) String author,
             @Parameter(name = "description", description = "Descripcion del libro. No tiene por que ser exacta", example = "Historia sobre la vida de un perrito", required = false)
             @RequestParam(required = false) String description,
-            @Parameter(name = "isbn", description = "Código identificador comercial de libros", example = "Estupendo", required = false)
+            @Parameter(name = "isbn", description = "Código identificador comercial de libros", example = "1234589", required = false)
             @RequestParam(required = false) Long isbn,
             @Parameter(name = "genre", description = "Género del libro", example = "Literatura", required = false)
             @RequestParam(required = false) String genre,
@@ -98,7 +101,7 @@ public class BooksController {
             description = "Operacion de escritura",
             summary = "Se elimina un libro a partir de su identificador.")
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "204",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)))
     @ApiResponse(
             responseCode = "404",
@@ -164,6 +167,10 @@ public class BooksController {
             responseCode = "400",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "Libro inválido o datos incorrectos introducidos.")
+    @ApiResponse(
+            responseCode = "404",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
+            description = "Libro no encontrado.")
     public ResponseEntity<Book> patchProduct(@PathVariable String bookId, @RequestBody String patchBody) {
 
         Book patched = service.updateBook(bookId, patchBody);
