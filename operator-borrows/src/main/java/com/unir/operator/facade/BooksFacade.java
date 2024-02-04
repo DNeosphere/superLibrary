@@ -37,22 +37,4 @@ public class BooksFacade {
       return null;
     }
   }
-
-  public Book patchBook(String id, Book body) {
-
-    try {
-      String url = String.format(getBookUrl, id);
-      log.info("Patching book with ID {}. Request to {}", id, url);
-      return restTemplate.patchForObject(url, body,Book.class);
-    } catch (HttpClientErrorException e) {
-      log.error("Client Error: {}, Book with ID {}", e.getStatusCode(), id);
-      return null;
-    } catch (HttpServerErrorException e) {
-      log.error("Server Error: {}, Book with ID {}", e.getStatusCode(), id);
-      return null;
-    } catch (Exception e) {
-      log.error("Error: {}, Book with ID {}", e.getMessage(), id);
-      return null;
-    }
-  }
 }

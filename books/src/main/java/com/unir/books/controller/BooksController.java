@@ -38,9 +38,6 @@ public class BooksController {
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
-    @ApiResponse(
-            responseCode = "204",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)))
     public ResponseEntity<List<Book>> getBooks(
             @RequestHeader Map<String, String> headers,
             @Parameter(name = "name", description = "Nombre del libro. No tiene por que ser exacto", example = "El señor de los anillos", required = false)
@@ -135,10 +132,6 @@ public class BooksController {
             responseCode = "400",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "Datos incorrectos introducidos.")
-    @ApiResponse(
-            responseCode = "404",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
-            description = "No se ha encontrado el libro con el identificador indicado.")
     public ResponseEntity<Book> addBook(@RequestBody CreateBookRequest request) {
 
         Book createdProduct = service.createBook(request);
@@ -198,6 +191,10 @@ public class BooksController {
             responseCode = "404",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "Libro no encontrado.")
+    @ApiResponse(
+            responseCode = "400",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
+            description = "Libro inválido o datos incorrectos introducidos.")
     public ResponseEntity<Book> updateBook(@PathVariable String bookId, @RequestBody BookDto body) {
 
         Book updated = service.updateBook(bookId, body);
