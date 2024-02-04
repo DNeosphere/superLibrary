@@ -8,6 +8,37 @@
             "mainClass": "com.unir.operator.OperatorApplication",
             "projectName": "operator",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=50065 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=operator"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BooksApplication<inventory-books>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.unir.books.BooksApplication",
+            "projectName": "inventory-books",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayApplication<gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.unir.gateway.GatewayApplication",
+            "projectName": "gateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EurekaApplication<eureka>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.unir.eureka.EurekaApplication",
+            "projectName": "eureka",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
