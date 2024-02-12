@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/back-end-cloud-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/back-end-eureka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/back-end-inventory-books-elasticsearch/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/books/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/operator-borrows/src/main/java" charset="UTF-8" />
   </component>
