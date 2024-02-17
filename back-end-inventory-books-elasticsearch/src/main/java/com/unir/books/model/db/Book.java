@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Document(indexName = "products", createIndex = true)
+@Document(indexName = "books", createIndex = true)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -31,7 +31,7 @@ public class Book {
 	private String author;
 
 	@Field(type = FieldType.Double, name = "isbn")
-	private String isbn;
+	private Long isbn;
 	
 	@Field(type = FieldType.Keyword, name = "genre")
 	private String genre;

@@ -9,10 +9,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateProductRequest {
+public class CreateBookRequest {
 
 	private String name;
-	private String country;
+	private String author;
+	private Long isbn;
 	private String description;
+	private String genre;
+	private String language;
 	private Boolean visible;
 }
+

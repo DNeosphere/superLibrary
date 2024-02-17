@@ -33,26 +33,26 @@ public class DataAccessRepository {
 
     // Esta clase (y bean) es la unica que usan directamente los servicios para
     // acceder a los datos.
-    private final BookRepositoryEs productRepository;
+    private final BookRepositoryEs bookRepository;
     private final ElasticsearchOperations elasticClient;
 
     private final String[] descriptionSearchFields = {"description", "description._2gram", "description._3gram"};
 
     public Book save(Book book) {
-        return productRepository.save(book);
+        return bookRepository.save(book);
     }
 
     public Boolean delete(Book book) {
-        productRepository.delete(book);
+        bookRepository.delete(book);
         return Boolean.TRUE;
     }
 
 	public Optional<Book> findById(String id) {
-		return productRepository.findById(id);
+		return bookRepository.findById(id);
 	}
 
     @SneakyThrows
-    public ProductsQueryResponse findProducts(String name, String description, String genre, String isbn, String language, String author,  Boolean aggregate) {
+    public ProductsQueryResponse findBooks(String name, String description,  Long isbn, String genre, String language, String author, Boolean aggregate) {
 
         BoolQueryBuilder querySpec = QueryBuilders.boolQuery();
 
@@ -64,7 +64,7 @@ public class DataAccessRepository {
             querySpec.must(QueryBuilders.termQuery("language", language));
         }
 
-        if (!StringUtils.isEmpty(isbn)) {
+        if (isbn != null) {
             querySpec.must(QueryBuilders.matchQuery("isbn", isbn));
         }
 
@@ -87,7 +87,7 @@ public class DataAccessRepository {
 
         //Filtro implicito
         //No le pido al usuario que lo introduzca pero lo aplicamos proactivamente en todas las peticiones
-        //En este caso, que los productos sean visibles (estado correcto de la entidad)
+        //En este caso, que los bookos sean visibles (estado correcto de la entidad)
         querySpec.must(QueryBuilders.termQuery("visible", true));
 
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder().withQuery(querySpec);
@@ -125,21 +125,21 @@ public class DataAccessRepository {
     /**
      * Componemos una URI basada en serverFullAddress y query params para cada argumento, siempre que no viniesen vacios
      *
-     * @param name        - nombre del producto
-     * @param description - descripcion del producto
-     * @param genre     - pais del producto
-     * @param language     - pais del producto
-     * @param isbn     - pais del producto
-     * @param author     - pais del producto
+     * @param name        - nombre del booko
+     * @param description - descripcion del booko
+     * @param genre     - pais del booko
+     * @param language     - pais del booko
+     * @param isbn     - pais del booko
+     * @param author     - pais del booko
      *
      * @return
      */
-    private String getQueryParams(String name, String description, String genre, String language, String isbn, String author) {
+    private String getQueryParams(String name, String description, String genre, String language, Long isbn, String author) {
         String queryParams = (StringUtils.isEmpty(name) ? "" : "&name=" + name)
                 + (StringUtils.isEmpty(description) ? "" : "&description=" + description)
                 + (StringUtils.isEmpty(genre) ? "" : "&genre=" + genre)
                 + (StringUtils.isEmpty(language) ? "" : "&language=" + language)
-                + (StringUtils.isEmpty(isbn) ? "" : "&isbn=" + isbn)
+                + "&isbn=" + isbn
                 + (StringUtils.isEmpty(author) ? "" : "&author=" + author);
         // Eliminamos el ultimo & si existe
         return queryParams.endsWith("&") ? queryParams.substring(0, queryParams.length() - 1) : queryParams;

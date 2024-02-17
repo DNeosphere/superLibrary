@@ -1,7 +1,7 @@
 ## Configuracion de Spring
 spring:
   application:
-    name: ms-inventory-products
+    name: ms-inventory-elastic-books
 
 ## Configuracion de Instancia 
 server:
@@ -19,10 +19,10 @@ eureka:
 
 ##Elasticsearch config
 elasticsearch:
-  host: ${ELASTICSEARCH_HOST}
+  host: ${ELASTICSEARCH_HOST:books-search-6587849147.us-east-1.bonsaisearch.net:443}
   credentials:
-    user: ${ELASTICSEARCH_USER}
-    password: ${ELASTICSEARCH_PWD}
+    user: ${ELASTICSEARCH_USER:ci6b09zw3k}
+    password: ${ELASTICSEARCH_PWD:rsz8y7cyg}
 logging:
   level:
     tracer: TRACE

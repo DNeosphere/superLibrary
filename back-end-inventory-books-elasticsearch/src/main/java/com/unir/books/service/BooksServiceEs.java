@@ -1,17 +1,17 @@
 package com.unir.books.service;
 
 import com.unir.books.model.db.Book;
-import com.unir.books.model.request.CreateProductRequest;
+import com.unir.books.model.request.CreateBookRequest;
 import com.unir.books.model.response.ProductsQueryResponse;
 
 public interface BooksServiceEs {
 
-	ProductsQueryResponse getProducts(String name, String description, String isbn, String genre, String language, String author, Boolean aggregate);
+	ProductsQueryResponse getBooks(String name, String description, Long isbn, String genre, String language, String author, Boolean aggregate);
 
-	Book getProduct(String bookId);
+	Book getBook(String bookId);
 	
-	Boolean removeProduct(String bookId);
+	Boolean removeBook(String bookId);
 	
-	Book createProduct(CreateProductRequest request);
+	Book createBook(CreateBookRequest request);
 
 }

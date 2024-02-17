@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 import com.unir.books.data.DataAccessRepository;
 import com.unir.books.model.db.Book;
-import com.unir.books.model.request.CreateProductRequest;
+import com.unir.books.model.request.CreateBookRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -16,18 +16,18 @@ public class BooksServiceEsImpl implements BooksServiceEs {
 	private final DataAccessRepository repository;
 
 	@Override
-	public ProductsQueryResponse getProducts(String name, String description, String isbn, String genre, String language, String author, Boolean aggregate) {
+	public ProductsQueryResponse getBooks(String name, String description, Long isbn, String genre, String language, String author, Boolean aggregate) {
 		//Ahora por defecto solo devolvera productos visibles
-		return repository.findProducts(name, description, isbn, genre, language, author, aggregate);
+		return repository.findBooks(name, description, isbn, genre, language, author, aggregate);
 	}
 
 	@Override
-	public Book getProduct(String productId) {
+	public Book getBook(String productId) {
 		return repository.findById(productId).orElse(null);
 	}
 
 	@Override
-	public Boolean removeProduct(String productId) {
+	public Boolean removeBook(String productId) {
 
 		Book book = repository.findById(productId).orElse(null);
 		if (book != null) {
@@ -39,14 +39,23 @@ public class BooksServiceEsImpl implements BooksServiceEs {
 	}
 
 	@Override
-	public Book createProduct(CreateProductRequest request) {
+	public Book createBook(CreateBookRequest request) {
 
 		if (request != null && StringUtils.hasLength(request.getName().trim())
 				&& StringUtils.hasLength(request.getDescription().trim())
-				&& StringUtils.hasLength(request.getCountry().trim()) && request.getVisible() != null) {
+				&& request.getIsbn() != null
+				&& StringUtils.hasLength(request.getGenre().trim())
+				&& StringUtils.hasLength(request.getLanguage().trim())
+				&& StringUtils.hasLength(request.getAuthor().trim()) && request.getVisible() != null) {
 
-			Book book = Book.builder().name(request.getName()).description(request.getDescription())
-					.genre(request.getCountry()).visible(request.getVisible()).build();
+			Book book = Book.builder()
+					.name(request.getName())
+					.description(request.getDescription())
+					.genre(request.getGenre())
+					.author(request.getAuthor())
+					.isbn(request.getIsbn())
+					.language(request.getLanguage())
+					.visible(request.getVisible()).build();
 
 			return repository.save(book);
 		} else {
@@ -55,3 +64,7 @@ public class BooksServiceEsImpl implements BooksServiceEs {
 	}
 
 }
+
+
+
+

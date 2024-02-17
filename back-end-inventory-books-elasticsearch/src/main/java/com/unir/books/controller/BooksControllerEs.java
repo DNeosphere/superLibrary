@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unir.books.model.db.Book;
-import com.unir.books.model.request.CreateProductRequest;
+import com.unir.books.model.request.CreateBookRequest;
 import com.unir.books.service.BooksServiceEs;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class BooksControllerEs {
 	public ResponseEntity<ProductsQueryResponse> getProducts(
 			@RequestHeader Map<String, String> headers,
 			@RequestParam(required = false) String name,
-			@RequestParam(required = false) String isbn,
+			@RequestParam(required = false) Long isbn,
 			@RequestParam(required = false) String description,
 			@RequestParam(required = false) String genre,
 			@RequestParam(required = false) String language,
@@ -40,15 +40,15 @@ public class BooksControllerEs {
 			@RequestParam(required = false, defaultValue = "false") Boolean aggregate) {
 
 		log.info("headers: {}", headers);
-		ProductsQueryResponse books = service.getProducts(name, description, isbn, genre, language, author, aggregate);
+		ProductsQueryResponse books = service.getBooks(name, description, isbn, genre, language, author, aggregate);
 		return ResponseEntity.ok(books);
 	}
 
-	@GetMapping("/books/{productId}")
-	public ResponseEntity<Book> getProduct(@PathVariable String productId) {
+	@GetMapping("/books/{bookId}")
+	public ResponseEntity<Book> getProduct(@PathVariable String bookId) {
 
-		log.info("Request received for product {}", productId);
-		Book book = service.getProduct(productId);
+		log.info("Request received for product {}", bookId);
+		Book book = service.getBook(bookId);
 
 		if (book != null) {
 			return ResponseEntity.ok(book);
@@ -58,10 +58,10 @@ public class BooksControllerEs {
 
 	}
 
-	@DeleteMapping("/books/{productId}")
-	public ResponseEntity<Void> deleteProduct(@PathVariable String productId) {
+	@DeleteMapping("/books/{bookId}")
+	public ResponseEntity<Void> deleteProduct(@PathVariable String bookId) {
 
-		Boolean removed = service.removeProduct(productId);
+		Boolean removed = service.removeBook(bookId);
 
 		if (Boolean.TRUE.equals(removed)) {
 			return ResponseEntity.ok().build();
@@ -72,9 +72,9 @@ public class BooksControllerEs {
 	}
 
 	@PostMapping("/books")
-	public ResponseEntity<Book> getProduct(@RequestBody CreateProductRequest request) {
+	public ResponseEntity<Book> getProduct(@RequestBody CreateBookRequest request) {
 
-		Book createdBook = service.createProduct(request);
+		Book createdBook = service.createBook(request);
 
 		if (createdBook != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
