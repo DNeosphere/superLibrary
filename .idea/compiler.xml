@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="inventory-books" />
         <module name="inventory-books-elasticsearch" />
         <module name="operator" />
         <module name="eureka" />
@@ -15,7 +16,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="books" target="17" />
-      <module name="inventory-books" target="17" />
       <module name="inventory-products" target="17" />
       <module name="inventory-products-elasticsearch" target="17" />
     </bytecodeTargetLevel>

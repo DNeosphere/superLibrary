@@ -14,6 +14,7 @@ import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -93,12 +94,12 @@ public class DataAccessRepository {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder().withQuery(querySpec);
 
         if (aggregate) {
-            nativeSearchQueryBuilder.addAggregation(AggregationBuilders.terms("Genre Aggregation").field("genre").size(1000));
+            nativeSearchQueryBuilder.addAggregation(AggregationBuilders.terms("Language Aggregation").field("language").size(1000));
             nativeSearchQueryBuilder.withMaxResults(0);
         }
 
         //Opcionalmente, podemos paginar los resultados
-        //nativeSearchQueryBuilder.withPageable(PageRequest.of(0, 10));
+        // nativeSearchQueryBuilder.withPageable(PageRequest.of(0, 10));
 
         Query query = nativeSearchQueryBuilder.build();
         SearchHits<Book> result = elasticClient.search(query, Book.class);
@@ -107,7 +108,7 @@ public class DataAccessRepository {
 
         if (result.hasAggregations()) {
             Map<String, Aggregation> aggs = result.getAggregations().asMap();
-            ParsedStringTerms countryAgg = (ParsedStringTerms) aggs.get("Genre Aggregation");
+            ParsedStringTerms countryAgg = (ParsedStringTerms) aggs.get("Language Aggregation");
 
             //Componemos una URI basada en serverFullAddress y query params para cada argumento, siempre que no viniesen vacios
             String queryParams = getQueryParams(name, description, genre, language, isbn, author);
@@ -117,7 +118,7 @@ public class DataAccessRepository {
                                     new AggregationDetails(
                                             bucket.getKey().toString(),
                                             (int) bucket.getDocCount(),
-                                            serverFullAddress + "/books?genre=" + bucket.getKey() + queryParams)));
+                                            serverFullAddress + "/books?language=" + bucket.getKey() + queryParams)));
         }
         return new ProductsQueryResponse(result.getSearchHits().stream().map(SearchHit::getContent).toList(), responseAggs);
     }
@@ -139,7 +140,7 @@ public class DataAccessRepository {
                 + (StringUtils.isEmpty(description) ? "" : "&description=" + description)
                 + (StringUtils.isEmpty(genre) ? "" : "&genre=" + genre)
                 + (StringUtils.isEmpty(language) ? "" : "&language=" + language)
-                + "&isbn=" + isbn
+                + (isbn == null ? "" : "&isbn" + isbn)
                 + (StringUtils.isEmpty(author) ? "" : "&author=" + author);
         // Eliminamos el ultimo & si existe
         return queryParams.endsWith("&") ? queryParams.substring(0, queryParams.length() - 1) : queryParams;
